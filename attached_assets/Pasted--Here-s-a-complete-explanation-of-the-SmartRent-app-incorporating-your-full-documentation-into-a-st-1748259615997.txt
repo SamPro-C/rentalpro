@@ -1,0 +1,242 @@
+ Here's a complete explanation of the SmartRent app, incorporating your full documentation into a structured, clear, and professional overview suitable for internal documentation, presentations, or onboarding new developers and stakeholders.
+
+🏘️ SmartRent Platform – Full System Overview
+SmartRent is a Progressive Web App (PWA) built to streamline rental property management with distinct roles and responsibilities for Landlords, Tenants, Shop Managers, Workers, and Admins. It offers fully integrated dashboards, communication, and financial tools for easy and efficient operations.
+
+🔐 User Roles & Permissions
+Role	Capabilities
+Admin	Full system access: manage all users, view all data, approve registrations.
+Landlord	Manages apartments, tenants, workers, payments, expenses, reports.
+Tenant	View-only access to their info, make rent payments, request services.
+Shop Manager	Manages shopping, orders, and deliveries. Limited to shop module only.
+Worker	Sees tasks & apartments assigned. Cannot view tenants' data.
+
+🏠 Landlord Dashboard
+🔑 First-Time Setup
+Register/Login.
+
+Add Apartment(s):
+
+Apartment name, location.
+
+Add Units and define Rooms (number, room numbers).
+
+Register Tenants:
+
+Only registered tenants can access the system.
+
+Register Workers:
+
+Assign to apartments and set duty schedules.
+
+📋 Core Features
+Add/Edit/Delete Tenants & Workers.
+
+Detailed Apartment View:
+
+Units → Rooms → Occupancy (Vacant/Occupied).
+
+Tenant Table:
+
+Paid / Unpaid rent lists.
+
+Search by ID to view, edit, or remove.
+
+Worker Table:
+
+View, edit, or remove registered workers.
+
+💳 Manual Rent Entry
+Fields: M-Pesa Code, Screenshot, Tenant Name, Room No., Unit, Apartment Name & ID.
+
+📊 Reports & Filters
+Generate by:
+
+Date range (daily, monthly, yearly).
+
+Apartment(s).
+
+Downloadable.
+
+Dynamic graphs & pie charts auto-update with filters.
+
+📤 Invoices & Alerts
+Automatic SMS/email alerts to landlord upon in-app payment.
+
+📣 Notifications
+Send targeted messages:
+
+All Tenants.
+
+Paid or Unpaid Tenants.
+
+Tenants in specific apartment(s).
+
+Sent via:
+
+In-app notification.
+
+Email + SMS.
+
+🛠️ Tenant Requests
+Change requests or service assistance.
+
+Includes: Name, ID, Apartment, Room No., Unit, Description + Media.
+
+Sent to landlord's email, phone (SMS), and dashboard.
+
+💰 Expense Tracking
+Manual entry form:
+
+Date, Amount, Expense Type, Apartment.
+
+Expense reports also support filters by date/apartment.
+
+👤 Tenant Dashboard
+🎯 Purpose
+A clean, view-only interface for tenants with core functionality:
+
+Personal Info: Name, Apartment, Unit, Room, ID.
+
+Payment Details:
+
+Current month’s rent, due amount.
+
+Payment history.
+
+Pay Now button (redirects to payment gateway).
+
+Shopping Button:
+
+Redirects to in-app marketplace.
+
+Workers Info:
+
+View assigned worker(s) to their apartment:
+
+Name, contact info, assigned duties, availability.
+
+🛠️ Service Requests
+Fill out issue form.
+
+Attach image/video for clarity.
+
+Status updates visible (Seen, Pending, Completed).
+
+🛒 Shop Manager Dashboard
+Dedicated to handling shopping & delivery for tenants.
+
+Can view:
+
+Orders made.
+
+Payment statuses.
+
+Delivery timelines.
+
+Cannot view any data on apartments, tenants, or finances.
+
+🧹 Workers Dashboard
+🧭 Overview
+Welcome card with name.
+
+Assigned Apartments Summary.
+
+Quick Stats:
+
+Total Apartments Assigned
+
+Today’s Shift
+
+Tasks Pending / Completed
+
+📌 Apartment View
+Each shows:
+
+Apartment name, units.
+
+Working hours per apartment.
+
+Assigned duties.
+
+📅 Work Schedule
+Calendar layout.
+
+Filters by apartment/unit.
+
+Displays shifts and task assignments.
+
+✅ Task Management
+Task cards with:
+
+Title, Description, Dates, Status.
+
+Can update status (Pending → Done).
+
+Timestamp for completion.
+
+🛠️ Service Requests
+View requests from tenants (read-only).
+
+Mark as “Seen” once acknowledged.
+
+Cannot edit/delete requests.
+
+📍 Attendance Tracker
+Optional check-in/check-out system.
+
+⚙️ System-Wide Technical Features
+🔐 Security
+Role-Based Access Control (RBAC).
+
+Tenant privacy: tenants can only view their data.
+
+Workers limited to apartment tasks only.
+
+🧾 Payments
+M-Pesa integration (auto and manual).
+
+Multiple payment methods supported.
+
+Auto-receipts & landlord alerts.
+
+📡 Real-Time Updates
+Live notifications across roles:
+
+Payment confirmation.
+
+Task updates.
+
+Service request status.
+
+📲 Responsive Design
+Fully mobile-optimized and desktop-ready.
+
+Seamless experience for all user roles.
+
+🧠 Suggestions for Future Enhancements
+💬 Messaging System:
+
+Chat between tenant ↔ landlord / worker.
+
+📅 Calendar Integration:
+
+Worker schedules.
+
+Rent reminders.
+
+🧾 Tenant Service History:
+
+View all past service requests, statuses, and assigned workers.
+
+⚙️ Smart AI Filters:
+
+Auto-prioritize service requests (e.g., Urgent vs. Normal).
+
+🗃️ Archived Reports:
+
+Keep long-term data available for audit/export.
+
+🧾 Summary
+SmartRent provides a powerful, secure, and user-friendly solution for managing apartment rentals with streamlined operations for landlords, efficient communication, and payment workflows for tenants, and well-defined responsibilities for workers and shop managers. Each role has a dedicated interface tailored to their tasks, ensuring clarity, privacy, and functionality at every level.
+

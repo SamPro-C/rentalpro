@@ -160,19 +160,19 @@ export default function Landing() {
               variants={fadeInUp}
             >
               <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
-                Intelligent
+                Rentizzi
               </span>
               <br />
-              Property Management
+              Smart Rental Management
               <br />
-              <span className="text-slate-700">Made Simple</span>
+              <span className="text-slate-700">Progressive Web App</span>
             </motion.h1>
 
             <motion.p 
               className="text-xl md:text-2xl text-slate-600 mb-12 max-w-3xl mx-auto leading-relaxed"
               variants={fadeInUp}
             >
-              Streamline rent collection, tenant communication, maintenance requests, and shopping delivery with our comprehensive PWA platform designed for modern property management.
+              Complete rental ecosystem with M-Pesa integration, role-based dashboards, real-time notifications, and integrated shopping delivery. Manage apartments, tenants, workers, and finances from one powerful platform.
             </motion.p>
 
             <motion.div 
@@ -244,68 +244,68 @@ export default function Landing() {
             {[
               {
                 icon: Shield,
-                title: "Authentication & User Management",
-                description: "Role-based registration with admin approval, secure login with reCAPTCHA, and comprehensive profile management for all user types.",
+                title: "Role-Based Authentication",
+                description: "Secure login with admin approval system. Five distinct user roles: Admin, Landlord, Tenant, Shop Manager, and Worker with tailored permissions.",
                 gradient: "from-blue-600 to-blue-700"
               },
               {
                 icon: Building2,
-                title: "Apartments & Units",
-                description: "Create and manage apartments, define room types, set rent amounts, track occupancy status, and view comprehensive income analytics.",
+                title: "Apartment Management",
+                description: "Complete property setup: apartments, units, rooms with occupancy tracking. Landlords can register tenants and assign workers to specific properties.",
                 gradient: "from-emerald-600 to-green-600"
               },
               {
                 icon: CreditCard,
-                title: "Rent Management",
-                description: "M-Pesa STK Push integration, payment history tracking, automated receipts, and comprehensive rent collection reports.",
+                title: "M-Pesa Integration",
+                description: "Automatic M-Pesa STK Push payments with manual entry fallback. Auto-generated receipts, payment history, and real-time landlord notifications.",
                 gradient: "from-purple-500 to-purple-600"
               },
               {
                 icon: Wrench,
-                title: "Request & Service Management",
-                description: "Submit maintenance requests with media attachments, real-time status updates, and worker assignment capabilities.",
+                title: "Service Request System",
+                description: "Tenants submit requests with media attachments. Real-time status updates, worker assignment, and automatic email/SMS notifications to landlords.",
                 gradient: "from-orange-500 to-red-500"
               },
               {
                 icon: ShoppingCart,
-                title: "Shopping & Delivery",
-                description: "Integrated e-commerce platform for groceries, water, gas delivery with inventory management and order tracking.",
+                title: "Integrated Shopping Platform",
+                description: "In-app marketplace for groceries, water, gas delivery. Shop managers handle inventory and orders while landlords track earnings.",
                 gradient: "from-pink-500 to-rose-500"
               },
               {
                 icon: Users,
-                title: "Workers Management",
-                description: "QR code attendance tracking, GPS-based check-ins, work schedule management, and performance monitoring.",
+                title: "Worker Management System",
+                description: "Attendance tracking with QR codes, task assignment to apartments, schedule management, and performance monitoring with completion timestamps.",
                 gradient: "from-cyan-500 to-blue-500"
               },
               {
-                icon: Smartphone,
-                title: "M-Pesa Payments",
-                description: "Seamless M-Pesa STK Push integration with manual fallback options, automated receipts, and fraud prevention measures.",
-                gradient: "from-green-500 to-emerald-500"
-              },
-              {
                 icon: BarChart3,
-                title: "Reports & Analytics",
-                description: "Comprehensive income vs expense charts, attendance reports, shop sales analytics with PDF/CSV export capabilities.",
+                title: "Advanced Analytics & Reports",
+                description: "Dynamic charts and filters by date/apartment. Income vs expense tracking, tenant payment status, and downloadable PDF/CSV reports.",
                 gradient: "from-yellow-500 to-orange-500"
               },
               {
                 icon: Bell,
-                title: "Notification System",
-                description: "Smart SMS, email, and push notifications for payment reminders, request updates, and targeted tenant communications.",
+                title: "Smart Notification System",
+                description: "Targeted messaging to all tenants, paid/unpaid tenants, or specific apartments. Multi-channel delivery via in-app, email, and SMS.",
                 gradient: "from-indigo-500 to-purple-500"
               },
               {
                 icon: Settings,
-                title: "Admin Dashboard",
-                description: "Complete platform oversight with user management, registration approvals, system monitoring, and role impersonation.",
+                title: "Expense Tracking",
+                description: "Manual expense entry with categorization by apartment and date. Comprehensive expense reports with filtering and integration into analytics.",
                 gradient: "from-red-500 to-pink-500"
+              },
+              {
+                icon: Smartphone,
+                title: "Real-Time Updates",
+                description: "Live notifications across all roles for payments, task updates, and service requests. Automatic status synchronization and instant alerts.",
+                gradient: "from-green-500 to-emerald-500"
               },
               {
                 icon: Download,
                 title: "Progressive Web App",
-                description: "Install on any device, offline support, push notifications, fast loading, and native app-like experience.",
+                description: "Install on any device with offline support, push notifications, and native app experience. Fully responsive design for mobile and desktop.",
                 gradient: "from-teal-500 to-cyan-500"
               },
             ].map((feature, index) => (
@@ -371,32 +371,37 @@ export default function Landing() {
               {
                 icon: "👑",
                 title: "Admin",
-                permissions: ["Full system control", "User approvals", "Platform monitoring", "Role impersonation"],
-                gradient: "from-red-500 to-pink-500"
+                permissions: ["Full system access", "Manage all users", "Approve registrations", "View all data"],
+                gradient: "from-red-500 to-pink-500",
+                description: "Complete platform oversight with user management and system monitoring capabilities."
               },
               {
                 icon: "🏠",
                 title: "Landlord",
-                permissions: ["Property management", "Tenant oversight", "Payment tracking", "Reports generation"],
-                gradient: "from-blue-600 to-blue-700"
+                permissions: ["Add apartments & units", "Register tenants & workers", "Manual rent entry", "Generate reports"],
+                gradient: "from-blue-600 to-blue-700",
+                description: "Full property management with tenant oversight, payment tracking, and expense monitoring."
               },
               {
                 icon: "👤",
                 title: "Tenant",
-                permissions: ["Rent payments", "Service requests", "Shopping orders", "Receipt downloads"],
-                gradient: "from-green-500 to-emerald-600"
+                permissions: ["View personal info", "Pay rent via M-Pesa", "Submit service requests", "Access shopping"],
+                gradient: "from-green-500 to-emerald-600",
+                description: "Clean view-only interface with payment capabilities and service request functionality."
               },
               {
                 icon: "🏪",
                 title: "Shop Manager",
-                permissions: ["Inventory management", "Order processing", "Delivery tracking", "Sales reports"],
-                gradient: "from-purple-500 to-indigo-500"
+                permissions: ["Manage inventory", "Process orders", "Handle deliveries", "Track sales"],
+                gradient: "from-purple-500 to-violet-600",
+                description: "Dedicated shopping module management with order processing and delivery coordination."
               },
               {
-                icon: "👷",
+                icon: "🔧",
                 title: "Worker",
-                permissions: ["QR attendance", "Task assignments", "Schedule viewing", "Work logs"],
-                gradient: "from-orange-500 to-yellow-500"
+                permissions: ["View assigned tasks", "Update task status", "Check attendance", "Access schedules"],
+                gradient: "from-orange-500 to-red-500",
+                description: "Task-focused dashboard with attendance tracking and apartment-specific assignments."
               },
             ].map((role, index) => (
               <motion.div key={index} variants={fadeInUp}>
@@ -406,6 +411,7 @@ export default function Landing() {
                       {role.icon}
                     </div>
                     <h3 className="text-xl font-bold mb-4 text-slate-900">{role.title}</h3>
+                    <p className="text-sm text-slate-600 mb-4">{role.description}</p>
                     <ul className="text-sm text-slate-600 space-y-2 text-left">
                       {role.permissions.map((permission, idx) => (
                         <li key={idx} className="flex items-center">

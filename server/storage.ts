@@ -1,9 +1,56 @@
-import { users, demoRequests, contactMessages, type User, type InsertUser, type DemoRequest, type InsertDemoRequest, type ContactMessage, type InsertContactMessage } from "@shared/schema";
+import { 
+  users, apartments, units, rooms, rentPayments, serviceRequests, workerAssignments, 
+  expenses, shopProducts, shopOrders, notifications, demoRequests, contactMessages,
+  type User, type InsertUser, type Apartment, type InsertApartment, type Unit, type InsertUnit,
+  type Room, type InsertRoom, type RentPayment, type InsertRentPayment, type ServiceRequest, 
+  type InsertServiceRequest, type WorkerAssignment, type InsertWorkerAssignment,
+  type Expense, type InsertExpense, type ShopProduct, type InsertShopProduct,
+  type ShopOrder, type InsertShopOrder, type DemoRequest, type InsertDemoRequest, 
+  type ContactMessage, type InsertContactMessage
+} from "@shared/schema";
 
 export interface IStorage {
+  // User Management
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, user: Partial<User>): Promise<User | undefined>;
+  
+  // Apartments & Properties
+  createApartment(apartment: InsertApartment): Promise<Apartment>;
+  getApartmentsByLandlord(landlordId: number): Promise<Apartment[]>;
+  createUnit(unit: InsertUnit): Promise<Unit>;
+  getUnitsByApartment(apartmentId: number): Promise<Unit[]>;
+  createRoom(room: InsertRoom): Promise<Room>;
+  getRoomsByUnit(unitId: number): Promise<Room[]>;
+  
+  // Rent & Payments
+  createRentPayment(payment: InsertRentPayment): Promise<RentPayment>;
+  getPaymentsByTenant(tenantId: number): Promise<RentPayment[]>;
+  getPaymentsByLandlord(landlordId: number): Promise<RentPayment[]>;
+  
+  // Service Requests
+  createServiceRequest(request: InsertServiceRequest): Promise<ServiceRequest>;
+  getServiceRequestsByTenant(tenantId: number): Promise<ServiceRequest[]>;
+  getServiceRequestsByLandlord(landlordId: number): Promise<ServiceRequest[]>;
+  updateServiceRequest(id: number, request: Partial<ServiceRequest>): Promise<ServiceRequest | undefined>;
+  
+  // Workers
+  createWorkerAssignment(assignment: InsertWorkerAssignment): Promise<WorkerAssignment>;
+  getWorkerAssignments(workerId: number): Promise<WorkerAssignment[]>;
+  
+  // Expenses
+  createExpense(expense: InsertExpense): Promise<Expense>;
+  getExpensesByLandlord(landlordId: number): Promise<Expense[]>;
+  
+  // Shopping
+  createShopProduct(product: InsertShopProduct): Promise<ShopProduct>;
+  getAllShopProducts(): Promise<ShopProduct[]>;
+  createShopOrder(order: InsertShopOrder): Promise<ShopOrder>;
+  getOrdersByCustomer(customerId: number): Promise<ShopOrder[]>;
+  
+  // Demo & Contact
   createDemoRequest(request: InsertDemoRequest): Promise<DemoRequest>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getAllDemoRequests(): Promise<DemoRequest[]>;
