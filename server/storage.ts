@@ -8,6 +8,8 @@ import {
   type ShopOrder, type InsertShopOrder, type DemoRequest, type InsertDemoRequest, 
   type ContactMessage, type InsertContactMessage
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // User Management
@@ -57,69 +59,153 @@ export interface IStorage {
   getAllContactMessages(): Promise<ContactMessage[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private demoRequests: Map<number, DemoRequest>;
-  private contactMessages: Map<number, ContactMessage>;
-  private currentUserId: number;
-  private currentDemoRequestId: number;
-  private currentContactMessageId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.demoRequests = new Map();
-    this.contactMessages = new Map();
-    this.currentUserId = 1;
-    this.currentDemoRequestId = 1;
-    this.currentContactMessageId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
+  // User Management
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
-  async createDemoRequest(insertRequest: InsertDemoRequest): Promise<DemoRequest> {
-    const id = this.currentDemoRequestId++;
-    const request: DemoRequest = {
-      ...insertRequest,
-      id,
-      createdAt: new Date(),
-    };
-    this.demoRequests.set(id, request);
-    return request;
+  async updateUser(id: number, userData: Partial<User>): Promise<User | undefined> {
+    const [user] = await db.update(users).set(userData).where(eq(users.id, id)).returning();
+    return user || undefined;
   }
 
-  async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
-    const id = this.currentContactMessageId++;
-    const message: ContactMessage = {
-      ...insertMessage,
-      id,
-      createdAt: new Date(),
-    };
-    this.contactMessages.set(id, message);
-    return message;
+  // Apartments & Properties
+  async createApartment(apartment: InsertApartment): Promise<Apartment> {
+    const [newApartment] = await db.insert(apartments).values(apartment).returning();
+    return newApartment;
+  }
+
+  async getApartmentsByLandlord(landlordId: number): Promise<Apartment[]> {
+    return await db.select().from(apartments).where(eq(apartments.landlordId, landlordId));
+  }
+
+  async createUnit(unit: InsertUnit): Promise<Unit> {
+    const [newUnit] = await db.insert(units).values(unit).returning();
+    return newUnit;
+  }
+
+  async getUnitsByApartment(apartmentId: number): Promise<Unit[]> {
+    return await db.select().from(units).where(eq(units.apartmentId, apartmentId));
+  }
+
+  async createRoom(room: InsertRoom): Promise<Room> {
+    const [newRoom] = await db.insert(rooms).values(room).returning();
+    return newRoom;
+  }
+
+  async getRoomsByUnit(unitId: number): Promise<Room[]> {
+    return await db.select().from(rooms).where(eq(rooms.unitId, unitId));
+  }
+
+  // Rent & Payments
+  async createRentPayment(payment: InsertRentPayment): Promise<RentPayment> {
+    const [newPayment] = await db.insert(rentPayments).values(payment).returning();
+    return newPayment;
+  }
+
+  async getPaymentsByTenant(tenantId: number): Promise<RentPayment[]> {
+    return await db.select().from(rentPayments).where(eq(rentPayments.tenantId, tenantId));
+  }
+
+  async getPaymentsByLandlord(landlordId: number): Promise<RentPayment[]> {
+    // This would need a more complex query joining tables
+    return [];
+  }
+
+  // Service Requests
+  async createServiceRequest(request: InsertServiceRequest): Promise<ServiceRequest> {
+    const [newRequest] = await db.insert(serviceRequests).values(request).returning();
+    return newRequest;
+  }
+
+  async getServiceRequestsByTenant(tenantId: number): Promise<ServiceRequest[]> {
+    return await db.select().from(serviceRequests).where(eq(serviceRequests.tenantId, tenantId));
+  }
+
+  async getServiceRequestsByLandlord(landlordId: number): Promise<ServiceRequest[]> {
+    // This would need a more complex query joining tables
+    return [];
+  }
+
+  async updateServiceRequest(id: number, request: Partial<ServiceRequest>): Promise<ServiceRequest | undefined> {
+    const [updatedRequest] = await db.update(serviceRequests).set(request).where(eq(serviceRequests.id, id)).returning();
+    return updatedRequest || undefined;
+  }
+
+  // Workers
+  async createWorkerAssignment(assignment: InsertWorkerAssignment): Promise<WorkerAssignment> {
+    const [newAssignment] = await db.insert(workerAssignments).values(assignment).returning();
+    return newAssignment;
+  }
+
+  async getWorkerAssignments(workerId: number): Promise<WorkerAssignment[]> {
+    return await db.select().from(workerAssignments).where(eq(workerAssignments.workerId, workerId));
+  }
+
+  // Expenses
+  async createExpense(expense: InsertExpense): Promise<Expense> {
+    const [newExpense] = await db.insert(expenses).values(expense).returning();
+    return newExpense;
+  }
+
+  async getExpensesByLandlord(landlordId: number): Promise<Expense[]> {
+    return await db.select().from(expenses).where(eq(expenses.landlordId, landlordId));
+  }
+
+  // Shopping
+  async createShopProduct(product: InsertShopProduct): Promise<ShopProduct> {
+    const [newProduct] = await db.insert(shopProducts).values(product).returning();
+    return newProduct;
+  }
+
+  async getAllShopProducts(): Promise<ShopProduct[]> {
+    return await db.select().from(shopProducts);
+  }
+
+  async createShopOrder(order: InsertShopOrder): Promise<ShopOrder> {
+    const [newOrder] = await db.insert(shopOrders).values(order).returning();
+    return newOrder;
+  }
+
+  async getOrdersByCustomer(customerId: number): Promise<ShopOrder[]> {
+    return await db.select().from(shopOrders).where(eq(shopOrders.customerId, customerId));
+  }
+
+  // Demo & Contact
+  async createDemoRequest(request: InsertDemoRequest): Promise<DemoRequest> {
+    const [newRequest] = await db.insert(demoRequests).values(request).returning();
+    return newRequest;
+  }
+
+  async createContactMessage(message: InsertContactMessage): Promise<ContactMessage> {
+    const [newMessage] = await db.insert(contactMessages).values(message).returning();
+    return newMessage;
   }
 
   async getAllDemoRequests(): Promise<DemoRequest[]> {
-    return Array.from(this.demoRequests.values());
+    return await db.select().from(demoRequests);
   }
 
   async getAllContactMessages(): Promise<ContactMessage[]> {
-    return Array.from(this.contactMessages.values());
+    return await db.select().from(contactMessages);
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

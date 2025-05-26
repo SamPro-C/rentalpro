@@ -35,6 +35,7 @@ import {
   Rocket,
   X,
 } from "lucide-react";
+import { Link } from "wouter";
 
 interface DemoRequest {
   name: string;
