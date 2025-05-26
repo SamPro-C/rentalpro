@@ -129,7 +129,7 @@ export default function Landing() {
               <a href="#pricing" className="text-slate-600 hover:text-blue-600 transition-colors">Pricing</a>
               <a href="#contact" className="text-slate-600 hover:text-blue-600 transition-colors">Contact</a>
               <Button asChild className="bg-blue-600 hover:bg-blue-700">
-                <a href="#demo">Get Demo</a>
+                <Link href="/login">Sign In</Link>
               </Button>
             </div>
           </div>
