@@ -1,9 +1,6 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
-import * as schema from "@shared/schema";
-
-neonConfig.webSocketConstructor = ws;
+import "reflect-metadata";
+import { DataSource } from "typeorm";
+import { User } from "./entities/User";
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
@@ -11,5 +8,18 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+export const AppDataSource = new DataSource({
+  type: "mysql",
+  url: process.env.DATABASE_URL,
+  entities: [User],
+  synchronize: true,
+  logging: false,
+});
+
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Data Source has been initialized!");
+  })
+  .catch((err) => {
+    console.error("Error during Data Source initialization:", err);
+  });

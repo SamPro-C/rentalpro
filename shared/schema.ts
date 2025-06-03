@@ -1,10 +1,10 @@
-import { pgTable, text, serial, timestamp, integer, decimal, boolean } from "drizzle-orm/pg-core";
+import { mysqlTable, text, int, timestamp, decimal, boolean } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 // User Management
-export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
+export const users = mysqlTable("users", {
+  id: int("id").primaryKey().autoincrement(),
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
@@ -16,37 +16,37 @@ export const users = pgTable("users", {
 });
 
 // Apartments and Properties
-export const apartments = pgTable("apartments", {
-  id: serial("id").primaryKey(),
+export const apartments = mysqlTable("apartments", {
+  id: int("id").primaryKey().autoincrement(),
   name: text("name").notNull(),
   location: text("location").notNull(),
-  landlordId: integer("landlord_id").references(() => users.id).notNull(),
+  landlordId: int("landlord_id").references(() => users.id).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const units = pgTable("units", {
-  id: serial("id").primaryKey(),
-  apartmentId: integer("apartment_id").references(() => apartments.id).notNull(),
+export const units = mysqlTable("units", {
+  id: int("id").primaryKey().autoincrement(),
+  apartmentId: int("apartment_id").references(() => apartments.id).notNull(),
   unitNumber: text("unit_number").notNull(),
   rentAmount: decimal("rent_amount", { precision: 10, scale: 2 }).notNull(),
   isOccupied: boolean("is_occupied").default(false),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const rooms = pgTable("rooms", {
-  id: serial("id").primaryKey(),
-  unitId: integer("unit_id").references(() => units.id).notNull(),
+export const rooms = mysqlTable("rooms", {
+  id: int("id").primaryKey().autoincrement(),
+  unitId: int("unit_id").references(() => units.id).notNull(),
   roomNumber: text("room_number").notNull(),
   roomType: text("room_type").notNull(), // bedsitter, 1br, 2br, etc
-  tenantId: integer("tenant_id").references(() => users.id),
+  tenantId: int("tenant_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // Rent and Payments
-export const rentPayments = pgTable("rent_payments", {
-  id: serial("id").primaryKey(),
-  tenantId: integer("tenant_id").references(() => users.id).notNull(),
-  roomId: integer("room_id").references(() => rooms.id).notNull(),
+export const rentPayments = mysqlTable("rent_payments", {
+  id: int("id").primaryKey().autoincrement(),
+  tenantId: int("tenant_id").references(() => users.id).notNull(),
+  roomId: int("room_id").references(() => rooms.id).notNull(),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
   paymentMethod: text("payment_method").notNull(), // mpesa_auto, mpesa_manual, card
   mpesaCode: text("mpesa_code"),
@@ -57,33 +57,33 @@ export const rentPayments = pgTable("rent_payments", {
 });
 
 // Service Requests
-export const serviceRequests = pgTable("service_requests", {
-  id: serial("id").primaryKey(),
-  tenantId: integer("tenant_id").references(() => users.id).notNull(),
-  roomId: integer("room_id").references(() => rooms.id).notNull(),
+export const serviceRequests = mysqlTable("service_requests", {
+  id: int("id").primaryKey().autoincrement(),
+  tenantId: int("tenant_id").references(() => users.id).notNull(),
+  roomId: int("room_id").references(() => rooms.id).notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   mediaUrl: text("media_url"),
   status: text("status").default("pending"), // pending, in_progress, completed
-  assignedWorkerId: integer("assigned_worker_id").references(() => users.id),
+  assignedWorkerId: int("assigned_worker_id").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // Workers and Tasks
-export const workerAssignments = pgTable("worker_assignments", {
-  id: serial("id").primaryKey(),
-  workerId: integer("worker_id").references(() => users.id).notNull(),
-  apartmentId: integer("apartment_id").references(() => apartments.id).notNull(),
+export const workerAssignments = mysqlTable("worker_assignments", {
+  id: int("id").primaryKey().autoincrement(),
+  workerId: int("worker_id").references(() => users.id).notNull(),
+  apartmentId: int("apartment_id").references(() => apartments.id).notNull(),
   duties: text("duties").notNull(),
   schedule: text("schedule").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const workerAttendance = pgTable("worker_attendance", {
-  id: serial("id").primaryKey(),
-  workerId: integer("worker_id").references(() => users.id).notNull(),
-  apartmentId: integer("apartment_id").references(() => apartments.id).notNull(),
+export const workerAttendance = mysqlTable("worker_attendance", {
+  id: int("id").primaryKey().autoincrement(),
+  workerId: int("worker_id").references(() => users.id).notNull(),
+  apartmentId: int("apartment_id").references(() => apartments.id).notNull(),
   checkInTime: timestamp("check_in_time"),
   checkOutTime: timestamp("check_out_time"),
   date: timestamp("date").defaultNow().notNull(),
@@ -91,21 +91,21 @@ export const workerAttendance = pgTable("worker_attendance", {
 });
 
 // Shopping System
-export const shopProducts = pgTable("shop_products", {
-  id: serial("id").primaryKey(),
+export const shopProducts = mysqlTable("shop_products", {
+  id: int("id").primaryKey().autoincrement(),
   name: text("name").notNull(),
   description: text("description"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   category: text("category").notNull(), // groceries, water, gas, etc
-  stockQuantity: integer("stock_quantity").default(0),
+  stockQuantity: int("stock_quantity").default(0),
   imageUrl: text("image_url"),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const shopOrders = pgTable("shop_orders", {
-  id: serial("id").primaryKey(),
-  customerId: integer("customer_id").references(() => users.id).notNull(),
+export const shopOrders = mysqlTable("shop_orders", {
+  id: int("id").primaryKey().autoincrement(),
+  customerId: int("customer_id").references(() => users.id).notNull(),
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
   status: text("status").default("pending"), // pending, confirmed, delivered, cancelled
   deliveryAddress: text("delivery_address").notNull(),
@@ -114,20 +114,20 @@ export const shopOrders = pgTable("shop_orders", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const orderItems = pgTable("order_items", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id").references(() => shopOrders.id).notNull(),
-  productId: integer("product_id").references(() => shopProducts.id).notNull(),
-  quantity: integer("quantity").notNull(),
+export const orderItems = mysqlTable("order_items", {
+  id: int("id").primaryKey().autoincrement(),
+  orderId: int("order_id").references(() => shopOrders.id).notNull(),
+  productId: int("product_id").references(() => shopProducts.id).notNull(),
+  quantity: int("quantity").notNull(),
   price: decimal("price", { precision: 10, scale: 2 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 // Expenses
-export const expenses = pgTable("expenses", {
-  id: serial("id").primaryKey(),
-  landlordId: integer("landlord_id").references(() => users.id).notNull(),
-  apartmentId: integer("apartment_id").references(() => apartments.id),
+export const expenses = mysqlTable("expenses", {
+  id: int("id").primaryKey().autoincrement(),
+  landlordId: int("landlord_id").references(() => users.id).notNull(),
+  apartmentId: int("apartment_id").references(() => apartments.id),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
   expenseType: text("expense_type").notNull(),
   description: text("description"),
@@ -136,9 +136,9 @@ export const expenses = pgTable("expenses", {
 });
 
 // Notifications
-export const notifications = pgTable("notifications", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+export const notifications = mysqlTable("notifications", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("user_id").references(() => users.id).notNull(),
   title: text("title").notNull(),
   message: text("message").notNull(),
   type: text("type").notNull(), // payment, service, general
@@ -146,18 +146,18 @@ export const notifications = pgTable("notifications", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const demoRequests = pgTable("demo_requests", {
-  id: serial("id").primaryKey(),
+export const demoRequests = mysqlTable("demo_requests", {
+  id: int("id").primaryKey().autoincrement(),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  phone: text("phone").notNull(),
+  phone: int("phone").notNull(),
   userType: text("user_type").notNull(),
   message: text("message"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const contactMessages = pgTable("contact_messages", {
-  id: serial("id").primaryKey(),
+export const contactMessages = mysqlTable("contact_messages", {
+  id: int("id").primaryKey().autoincrement(),
   name: text("name").notNull(),
   email: text("email").notNull(),
   subject: text("subject").notNull(),

@@ -17,6 +17,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         id: demoRequest.id 
       });
     } catch (error) {
+      console.error("Error in /api/demo-request:", error);
       if (error instanceof z.ZodError) {
         res.status(400).json({ 
           success: false, 
