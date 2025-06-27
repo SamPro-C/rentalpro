@@ -1,0 +1,6 @@
+{
+    "IDX.aI.enableInlineCompletion": true,
+    "IDX.aI.enableCodebaseIndexing": true,
+    "zencoder.enableRepoIndexing": true,
+    "git.ignoreLimitWarning": true
+}
